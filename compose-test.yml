@@ -19,8 +19,19 @@ jobs:
       - name: Run containers
         run: docker compose up -d
 
+      - name: Wait for services
+        run: sleep 15
+
+      - name: Network test
+        run: curl -f http://localhost:8080 || exit 1
+
       - name: Show running containers
         run: docker ps
 
-      - name: Stop containers
+      - name: Show Container Logs
+        if: always()
+        run: docker compose logs
+
+      - name: Tear Down Docker Compose Stack
+        if: always()
         run: docker compose down
