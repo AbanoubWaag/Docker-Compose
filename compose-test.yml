@@ -1,0 +1,26 @@
+name: Docker Compose Test
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  compose-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build containers
+        run: docker compose build
+
+      - name: Run containers
+        run: docker compose up -d
+
+      - name: Show running containers
+        run: docker ps
+
+      - name: Stop containers
+        run: docker compose down
